@@ -6,8 +6,8 @@ ServoAttachDistL = 10;
 ServoAttachHolDia = 1.5;
 ServoAttachThick = 3;
 ServoBoxThick=ServoAttachThick;
-servoElCWidth = 2;
-servoElCLength = 6;
+servoElCWidth = 3;
+servoElCLength = 8;
 tigeLength=40;
 tigeWidth=10;
 tigeThick=ServoAttachThick;
@@ -76,4 +76,58 @@ module servoBoxFix() {
     
 //servoBoxFix();
     
-servoBoxTige();
+//servoBoxTige();
+ 
+servoHeadLength=18;
+servoHeadWidth =7;
+servoHeadEndDiam =4;
+servoHeadMidleLength=6;
+servoHeadNrHolesHor= 13;
+servoHeadNrHolesVer= 5;    
+ 
+    
+module servoHead() {
+            module head() {
+                difference() {
+                   hull() {
+                         union() {
+                            square(servoHeadMidleLength,$fn=150,center=true);
+                            translate([servoHeadLength,0,0]) circle(d=servoHeadEndDiam,$fn=150);   
+                          }
+                        };
+                      circle(d=3,$fn=150);
+                      for(ii =[1:servoHeadNrHolesHor/2]) {
+                         translate([ii*2,0,0]) circle(d=1.5,$fn=150);
+                      }
+                    }
+                }            
+                module headSmall() {
+                 difference() {  
+                   hull() {
+                       union() {
+                         square(servoHeadMidleLength,$fn=150,center=true);
+                         translate([servoHeadWidth,0,0]) circle(d=servoHeadEndDiam,$fn=150);       
+                       }
+                    };
+                  circle(d=3,$fn=150);
+                   for(ii =[1:servoHeadMidleLength/2 ]) {
+                         translate([ii*2,0,0]) circle(d=1.5,$fn=150);
+                      }
+                }
+            }
+             
+            rotate([0,0,90]) headSmall();
+            rotate([0,0,-90]) headSmall();
+            head();
+            rotate([0,0,180]) head();
+}        
+    
+
+module leg() {
+
+    servoHead();
+  
+    
+    }    
+    
+leg();    

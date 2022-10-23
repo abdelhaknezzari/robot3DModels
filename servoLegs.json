@@ -1,0 +1,19 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "ServoAttachBaseDistL": "15",
+            "ServoAttachDistL": "10",
+            "ServoAttachDistW": "4",
+            "ServoAttachHolDia": "1.5",
+            "ServoAttachThick": "3",
+            "servoElCLength": "8",
+            "servoElCWidth": "3",
+            "servoHeight": "17.5",
+            "servoWidth": "13.380000000000001",
+            "sevoLength": "23",
+            "tigeLength": "40",
+            "tigeWidth": "10"
+        }
+    }
+}
