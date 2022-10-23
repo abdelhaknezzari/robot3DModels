@@ -83,7 +83,10 @@ servoHeadWidth =7;
 servoHeadEndDiam =4;
 servoHeadMidleLength=6;
 servoHeadNrHolesHor= 13;
-servoHeadNrHolesVer= 5;    
+servoHeadNrHolesVer= 5;  
+  
+legDiameter = 5;    
+legLength = 50;
  
     
 module servoHead() {
@@ -95,7 +98,7 @@ module servoHead() {
                             translate([servoHeadLength,0,0]) circle(d=servoHeadEndDiam,$fn=150);   
                           }
                         };
-                      circle(d=3,$fn=150);
+                      circle(d=2.3,$fn=150);
                       for(ii =[1:servoHeadNrHolesHor/2]) {
                          translate([ii*2,0,0]) circle(d=1.5,$fn=150);
                       }
@@ -109,25 +112,33 @@ module servoHead() {
                          translate([servoHeadWidth,0,0]) circle(d=servoHeadEndDiam,$fn=150);       
                        }
                     };
-                  circle(d=3,$fn=150);
+                  circle(d=2.3,$fn=150);
                    for(ii =[1:servoHeadMidleLength/2 ]) {
                          translate([ii*2,0,0]) circle(d=1.5,$fn=150);
                       }
                 }
             }
              
+        linear_extrude(1.5) {
             rotate([0,0,90]) headSmall();
             rotate([0,0,-90]) headSmall();
             head();
-            rotate([0,0,180]) head();
+            rotate([0,0,180]) head();            
+            
+            }    
+
 }        
     
 
 module leg() {
-
-    servoHead();
-  
+  servoHead();
+  translate([servoHeadLength+legDiameter*0.5-servoHeadEndDiam*0.5,legLength*0.5,1]) 
+    rotate([90,0,0])
+       union() { 
+       cylinder(legLength,legDiameter,legDiameter,$fn=150,center=true);
+        }
+             # translate([0,0,15]) sphere(d=10,$fn=150);
     
-    }    
+}    
     
 leg();    
