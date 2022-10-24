@@ -47,16 +47,26 @@ linear_extrude(4)
   translate([-34,0,0])  triangle();
   translate([30,0,0]) triangle();
   cube([70,140,4], center =true);
-    
-    
-    
-      
-    
-    
-    
-    
-    
-    
+        
 }
 
-chassis();
+//chassis();
+
+
+module roue()
+
+{
+
+rotate_extrude(angle = 360,convexity = 20,$fn=150)
+  
+translate([20,0,0])    
+    rotate([0,0,-90])
+difference(){
+square([5,30],center = true);
+translate([0,14,0]) square([3,3],center = true);
+}
+
+
+}
+
+//roue();
