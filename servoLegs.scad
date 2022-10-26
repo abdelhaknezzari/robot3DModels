@@ -137,8 +137,101 @@ module leg() {
        union() { 
        cylinder(legLength,legDiameter,legDiameter,$fn=150,center=true);
         }
-             # translate([0,0,15]) sphere(d=10,$fn=150);
+       translate([servoHeadLength+0.5,legLength,1]) sphere(d=10,$fn=150);
     
 }    
     
-leg();    
+//leg();    
+
+
+BaseLength = 200;
+BaseWidth  = 150;
+BaseThick = 2.5;
+axeDiam = 7.2;
+axeEdgePlus = 25;
+
+module chassis() {
+      module axe() {
+            difference() {
+                cylinder(BaseWidth+axeEdgePlus*2,axeDiam,axeDiam,center=true,$fn=150);
+                }
+          
+          }
+      
+    
+      cube([BaseWidth,BaseLength,BaseThick],center=true);
+      translate([0,BaseLength*0.5 - axeDiam- axeEdgePlus,axeDiam+BaseThick*0.5]) 
+          rotate([0,90,0])  
+          color("#32a875") 
+          axe();
+      translate([0,-BaseLength*0.5 + axeDiam +axeEdgePlus,axeDiam+BaseThick*0.5]) 
+          rotate([0,90,0])  
+          color("#32a875") 
+          axe();
+       
+    translate([0,0,BaseThick+2*axeDiam])  cube([BaseWidth,BaseLength,BaseThick],center=true);
+
+    
+    
+    }
+    
+    
+module chassisWithServoSupport() {
+    chassis();
+    translate([BaseWidth*0.5+ servoHeight +axeEdgePlus+ServoBoxThick+1 ,BaseLength*0.5-axeEdgePlus-axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([-90,0,90])
+    servoBoxTige();
+    
+    translate([BaseWidth*0.5+ servoHeight +axeEdgePlus+ServoBoxThick+1 ,-BaseLength*0.5+axeEdgePlus+axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([-90,0,90])
+    servoBoxTige();
+    
+    translate([-BaseWidth*0.5- servoHeight -axeEdgePlus-ServoBoxThick-1 ,-BaseLength*0.5+axeEdgePlus+axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([90,0,90])
+    servoBoxTige();
+    
+    translate([-BaseWidth*0.5- servoHeight -axeEdgePlus-ServoBoxThick-1 ,BaseLength*0.5-axeEdgePlus-axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([90,0,90])
+    servoBoxTige();
+
+}    
+
+//chassisWithServoSupport();
+
+lineFolIntLength=66;
+lineFolIntWidth=17;
+lineFolIntEdgeWidth=10;
+lineFolBridgeH = 9;
+lineFolBridgeW = 4;
+
+module infraredLineFollower() {
+    
+    module cadre() {
+        difference() { 
+             cube([lineFolIntWidth+lineFolIntEdgeWidth,lineFolIntLength+lineFolIntEdgeWidth,2],center=true);
+             cube([lineFolIntWidth,lineFolIntLength,2+1],center=true);           
+            }
+        }
+     module bridge() {
+         
+         module pilar(length=0,width=0,height=0) {
+               hull(){
+                translate([0,-lineFolBridgeW,0]) 
+                cylinder(lineFolBridgeH,lineFolIntEdgeWidth*0.25,lineFolIntEdgeWidth*0.25,center=true,$fn=150);
+                translate([0,lineFolBridgeW,0]) 
+                cylinder(lineFolBridgeH,lineFolIntEdgeWidth*0.25,lineFolIntEdgeWidth*0.25,center=true,$fn=150);
+                 }
+             }
+             
+             translate([lineFolIntWidth-6,0,4.5]) pilar();
+             translate([-lineFolIntWidth+6,0,4.5]) pilar();
+         
+         }
+        
+        
+     cadre();  
+     bridge(); 
+    
+    }
+    
+infraredLineFollower();
