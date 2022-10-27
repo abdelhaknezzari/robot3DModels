@@ -200,38 +200,70 @@ module chassisWithServoSupport() {
 
 lineFolIntLength=66;
 lineFolIntWidth=17;
-lineFolIntEdgeWidth=10;
-lineFolBridgeH = 9;
-lineFolBridgeW = 4;
+lineFolCadreThickInt = 2;
+lineFolCadreThickExt = 4;
+
+
+lineFolIntEdgeWidth=15;
+
+pilarWidth = 7.5;
+pilarHight = 10;
+pilarLength = 10;
+
+
+
 
 module infraredLineFollower() {
     
-    module cadre() {
+    module cadre(length=0,width=0,edgeL=0,thick=0) {
         difference() { 
-             cube([lineFolIntWidth+lineFolIntEdgeWidth,lineFolIntLength+lineFolIntEdgeWidth,2],center=true);
-             cube([lineFolIntWidth,lineFolIntLength,2+1],center=true);           
+             cube([length + lineFolIntEdgeWidth,width+lineFolIntEdgeWidth,thick],center=true);
+             cube([length ,width,thick+1],center=true);           
             }
         }
-     module bridge() {
-         
-         module pilar(length=0,width=0,height=0) {
-               hull(){
-                translate([0,-lineFolBridgeW,0]) 
-                cylinder(lineFolBridgeH,lineFolIntEdgeWidth*0.25,lineFolIntEdgeWidth*0.25,center=true,$fn=150);
-                translate([0,lineFolBridgeW,0]) 
-                cylinder(lineFolBridgeH,lineFolIntEdgeWidth*0.25,lineFolIntEdgeWidth*0.25,center=true,$fn=150);
-                 }
-             }
-             
-             translate([lineFolIntWidth-6,0,4.5]) pilar();
-             translate([-lineFolIntWidth+6,0,4.5]) pilar();
-         
+        
+module cadres() {
+         union() {
+         translate([0,0,lineFolCadreThickInt]) 
+             cadre(length=lineFolIntWidth,width=lineFolIntLength,thick=lineFolCadreThickInt);  
+             cadre(
+                  length=lineFolIntWidth+lineFolIntEdgeWidth,
+                  width=lineFolIntLength+lineFolIntEdgeWidth,
+                  thick=lineFolCadreThickInt+lineFolCadreThickExt); 
+              }         
          }
         
+         module pilar(width=0,height=0,length=0) {
+               hull(){
+                    translate([0,-length*0.5,0]) 
+                     cylinder(height,width*0.5,width*0.5,center=true,$fn=150);
+                    translate([0,length*0.5,0]) 
+                     cylinder(height,width*0.5,width*0.5,center=true,$fn=150);
+                 }
+             }
         
-     cadre();  
-     bridge(); 
-    
+         module bridge() {
+             trX = -lineFolIntWidth*0.5-lineFolIntEdgeWidth*0.5-lineFolIntEdgeWidth/4;  
+             trZ = -pilarHight+lineFolCadreThickExt*0.5;
+             translate([0,0,trZ]) 
+             union() {
+                 translate([trX,0,0])            
+                     pilar(pilarWidth,pilarHight,pilarLength);
+                 translate([-trX,0,0]) 
+                     pilar(pilarWidth,pilarHight,pilarLength);
+                  translate([0,0,-3.5]) 
+                     rotate([0,0,90])
+                     cube([17,38,3],center=true);
+                  difference() {
+                         cylinder(40,8,8,$fn=150,center=true);
+                         cylinder(41,5,5,$fn=150,center=true);
+                       }
+
+                 }     
+
+         }
+      cadres();   
+      color("#ac28f6") bridge(); 
     }
     
 infraredLineFollower();

@@ -1,3 +1,5 @@
+riangleLength = 60;
+trinagleHoleEdgeL = triangleLength/8;
 roueWidth = 5;
 roueDiameter = 40;
 roueProfondeurL = 4;
@@ -30,8 +32,6 @@ module joints()
     translate([60,40,0]) joint();
     translate([70,0,0]) joint();
 }
-
-
 //joints();
 triangleLength = 60;
 trinagleHoleEdgeL = triangleLength/8;
@@ -95,3 +95,30 @@ module roue()
 }
 
 translate([0,0,-47]) rotate([90,0,90]) color("#aa6800") roue();
+translate([1,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([7,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-7,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-13,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-19,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-25,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-37,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-43,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,-38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+
+translate([7,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-7,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-13,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-19,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-25,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-37,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-43,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+translate([-31,38,-9]) rotate([90,0,90]) color("#aa6800") roue();
+
+
+
