@@ -32,7 +32,11 @@ module joints()
 }
 
 
+ //joint();
+
 //joints();
+
+
 triangleLength = 60;
 trinagleHoleEdgeL = triangleLength/8;
 
@@ -51,36 +55,8 @@ module triangle()
     
 }
     
-  
-    
-module chassis()
-{   
-  translate([-triangleLength*0.5+chassisThick*0.5,0,-chassisThick*0.5]) triangle();
-  translate([triangleLength*0.5 - chassisThick*0.5 ,0,-chassisThick*0.5]) triangle();
-  cube([triangleLength,triangleLength*2,chassisThick], center =true);
-        
-}
 
-
-
-
-
-//triangle();
-
-chassis();
-translate([-37,0,-42]) rotate([90,0,90])  joint();
-translate([37,0,-42]) rotate([90,0,90])  joint();
-translate([-37,38,-4]) rotate([90,0,90])  joint();
-translate([37,38,-4]) rotate([90,0,90])  joint();
-translate([37,-38,-4]) rotate([90,0,90])  joint();
-translate([-37,-38,-4]) rotate([90,0,90])  joint();
-
-translate([1,0,-46.5]) rotate([90,0,90]) color("#09bfb8") cylinder(82,1.5,1.5 ,center = true, $fn = 150);
-translate([1,38,-9]) rotate([90,0,90]) color("#09bfb8") cylinder(82,1.5,1.5 ,center = true, $fn = 150);
-translate([1,-38,-9]) rotate([90,0,90]) color("#09bfb8") cylinder(82,1.5,1.5 ,center = true, $fn = 150);
-
-//translate([-50,0,0])  triangle();
-//translate([50,0,0]) triangle();
+//triangle();  
 
 module roue()
 {
@@ -94,4 +70,46 @@ module roue()
     }
 }
 
-translate([0,0,-47]) rotate([90,0,90]) color("#aa6800") roue();
+
+//roue();
+    
+module chassis()
+{   
+  translate([-triangleLength*0.5+chassisThick*0.5,0,-chassisThick*0.5]) triangle();
+  translate([triangleLength*0.5 - chassisThick*0.5 ,0,-chassisThick*0.5]) triangle();
+  cube([triangleLength,triangleLength*2,chassisThick], center =true);
+        
+}
+
+difference() {
+square(4,center=true);
+translate([2,2,0]) circle(4,$fn=150);    
+    }
+
+
+
+//chassis();
+
+
+
+//triangle();
+
+module assembledRobot() {
+    chassis();
+    translate([-37,0,-42]) rotate([90,0,90])  joint();
+    translate([37,0,-42]) rotate([90,0,90])  joint();
+    translate([-37,38,-4]) rotate([90,0,90])  joint();
+    translate([37,38,-4]) rotate([90,0,90])  joint();
+    translate([37,-38,-4]) rotate([90,0,90])  joint();
+    translate([-37,-38,-4]) rotate([90,0,90])  joint();
+
+    translate([1,0,-46.5]) rotate([90,0,90]) color("#09bfb8") cylinder(82,1.5,1.5 ,center = true, $fn = 150);
+    translate([1,38,-9]) rotate([90,0,90]) color("#09bfb8") cylinder(82,1.5,1.5 ,center = true, $fn = 150);
+    translate([1,-38,-9]) rotate([90,0,90]) color("#09bfb8") cylinder(82,1.5,1.5 ,center = true, $fn = 150);
+
+    //translate([-50,0,0])  triangle();
+    //translate([50,0,0]) triangle();
+    translate([0,0,-47]) rotate([90,0,90]) color("#aa6800") roue();
+ }
+ 
+// assembledRobot();

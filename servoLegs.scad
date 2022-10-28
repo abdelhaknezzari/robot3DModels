@@ -196,7 +196,7 @@ module chassisWithServoSupport() {
 
 }    
 
-//chassisWithServoSupport();
+chassisWithServoSupport();
 
 lineFolIntLength=66;
 lineFolIntWidth=17;
@@ -210,19 +210,16 @@ pilarWidth = 7.5;
 pilarHight = 10;
 pilarLength = 10;
 
-
-
+bridgeThick = 3;
 
 module infraredLineFollower() {
-    
     module cadre(length=0,width=0,edgeL=0,thick=0) {
         difference() { 
              cube([length + lineFolIntEdgeWidth,width+lineFolIntEdgeWidth,thick],center=true);
              cube([length ,width,thick+1],center=true);           
             }
-        }
-        
-module cadres() {
+        }        
+    module cadres() {
          union() {
          translate([0,0,lineFolCadreThickInt]) 
              cadre(length=lineFolIntWidth,width=lineFolIntLength,thick=lineFolCadreThickInt);  
@@ -232,38 +229,36 @@ module cadres() {
                   thick=lineFolCadreThickInt+lineFolCadreThickExt); 
               }         
          }
-        
-         module pilar(width=0,height=0,length=0) {
+    module pilar(width=0,height=0,length=0) {
                hull(){
                     translate([0,-length*0.5,0]) 
                      cylinder(height,width*0.5,width*0.5,center=true,$fn=150);
                     translate([0,length*0.5,0]) 
                      cylinder(height,width*0.5,width*0.5,center=true,$fn=150);
                  }
-             }
-        
-         module bridge() {
-             trX = -lineFolIntWidth*0.5-lineFolIntEdgeWidth*0.5-lineFolIntEdgeWidth/4;  
+    }    
+    module bridge() {
+             trX = lineFolIntWidth*0.5+lineFolIntEdgeWidth*0.5+lineFolIntEdgeWidth/4;  
              trZ = -pilarHight+lineFolCadreThickExt*0.5;
              translate([0,0,trZ]) 
              union() {
-                 translate([trX,0,0])            
+                 translate([-trX,0,0])            
                      pilar(pilarWidth,pilarHight,pilarLength);
-                 translate([-trX,0,0]) 
+                 translate([trX,0,0]) 
                      pilar(pilarWidth,pilarHight,pilarLength);
                   translate([0,0,-3.5]) 
                      rotate([0,0,90])
-                     cube([17,38,3],center=true);
-                  difference() {
+                     cube([pilarLength+pilarWidth,2*trX,bridgeThick],center=true);
+                 
+                 #translate([0,0,-25]) 
+                 difference() {
                          cylinder(40,8,8,$fn=150,center=true);
                          cylinder(41,5,5,$fn=150,center=true);
                        }
-
                  }     
-
          }
       cadres();   
       color("#ac28f6") bridge(); 
-    }
+ }
     
-infraredLineFollower();
+translate([0,-90,50]) rotate([0,0,90]) infraredLineFollower();
