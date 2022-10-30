@@ -75,8 +75,7 @@ module servoBoxFix() {
     
     }    
     
-//servoBoxFix();
-    
+//servoBoxFix();  
 //servoBoxTige();
  
 servoHeadLength=18;
@@ -211,7 +210,7 @@ module infraredLineFollower() {
  }
 
 
-//translate([0,-90,48]) rotate([0,0,90]) infraredLineFollower();
+translate([0,-90,48]) rotate([0,0,90]) infraredLineFollower();
 
 BaseLength = 200;
 BaseWidth  = 150;
