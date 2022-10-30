@@ -38,13 +38,14 @@ ServoAttachBaseDistL = 15;
 
 module servoBoxTige() {         
       module tige() {
-          translate([0,0,tigeLength*0.5])
+          translate([0,0,tigeLength*0.5]) union() {
             linear_extrude(tigeLength)
                difference() {
                  circle( tigeWidth*0.5,$fn=150 );    
-                 circle( (tigeWidth-tigeThick)*0.5,$fn=150 ); 
-              
-              }
+                 circle( (tigeWidth-tigeThick)*0.5,$fn=150 );
+              };
+              translate([-11.5,-6.5,-22]) color("#ac78f6") cube([23,13,10]);
+          }
     
       }
     
@@ -144,59 +145,7 @@ module leg() {
 //leg();    
 
 
-BaseLength = 200;
-BaseWidth  = 150;
-BaseThick = 2.5;
-axeDiam = 7.2;
-axeEdgePlus = 25;
 
-module chassis() {
-      module axe() {
-            difference() {
-                cylinder(BaseWidth+axeEdgePlus*2,axeDiam,axeDiam,center=true,$fn=150);
-                }
-          
-          }
-      
-    
-      cube([BaseWidth,BaseLength,BaseThick],center=true);
-      translate([0,BaseLength*0.5 - axeDiam- axeEdgePlus,axeDiam+BaseThick*0.5]) 
-          rotate([0,90,0])  
-          color("#32a875") 
-          axe();
-      translate([0,-BaseLength*0.5 + axeDiam +axeEdgePlus,axeDiam+BaseThick*0.5]) 
-          rotate([0,90,0])  
-          color("#32a875") 
-          axe();
-       
-    translate([0,0,BaseThick+2*axeDiam])  cube([BaseWidth,BaseLength,BaseThick],center=true);
-
-    
-    
-    }
-    
-    
-module chassisWithServoSupport() {
-    chassis();
-    translate([BaseWidth*0.5+ servoHeight +axeEdgePlus+ServoBoxThick+1 ,BaseLength*0.5-axeEdgePlus-axeDiam,axeDiam+BaseThick*0.5]) 
-    rotate([-90,0,90])
-    servoBoxTige();
-    
-    translate([BaseWidth*0.5+ servoHeight +axeEdgePlus+ServoBoxThick+1 ,-BaseLength*0.5+axeEdgePlus+axeDiam,axeDiam+BaseThick*0.5]) 
-    rotate([-90,0,90])
-    servoBoxTige();
-    
-    translate([-BaseWidth*0.5- servoHeight -axeEdgePlus-ServoBoxThick-1 ,-BaseLength*0.5+axeEdgePlus+axeDiam,axeDiam+BaseThick*0.5]) 
-    rotate([90,0,90])
-    servoBoxTige();
-    
-    translate([-BaseWidth*0.5- servoHeight -axeEdgePlus-ServoBoxThick-1 ,BaseLength*0.5-axeEdgePlus-axeDiam,axeDiam+BaseThick*0.5]) 
-    rotate([90,0,90])
-    servoBoxTige();
-
-}    
-
-chassisWithServoSupport();
 
 lineFolIntLength=66;
 lineFolIntWidth=17;
@@ -260,5 +209,162 @@ module infraredLineFollower() {
       cadres();   
       color("#ac28f6") bridge(); 
  }
+
+
+//translate([0,-90,48]) rotate([0,0,90]) infraredLineFollower();
+
+BaseLength = 200;
+BaseWidth  = 150;
+BaseThick = 2.5;
+axeDiam = 7.2;
+axeEdgePlus = 25;
+
+module chassis() {
+      module axe() {
+            difference() {
+                cylinder(BaseWidth+axeEdgePlus*2,axeDiam,axeDiam,center=true,$fn=150);
+                }
+          
+          }
+      
     
-translate([0,-90,48]) rotate([0,0,90]) infraredLineFollower();
+      cube([BaseWidth,BaseLength,BaseThick],center=true);
+      translate([0,BaseLength*0.5 - axeDiam- axeEdgePlus,axeDiam+BaseThick*0.5]) 
+          rotate([0,90,0])  
+          color("#32a875") 
+          axe();
+      translate([0,-BaseLength*0.5 + axeDiam +axeEdgePlus,axeDiam+BaseThick*0.5]) 
+          rotate([0,90,0])  
+          color("#32a875") 
+          axe();
+       
+    translate([0,0,BaseThick+2*axeDiam])  cube([BaseWidth,BaseLength,BaseThick],center=true);
+
+    
+    
+    }
+    
+    
+module chassisWithServoSupport() {
+    chassis();
+    translate([BaseWidth*0.5+ servoHeight +axeEdgePlus+ServoBoxThick+1 ,BaseLength*0.5-axeEdgePlus-axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([-90,0,90])
+    servoBoxTige();
+    
+    translate([BaseWidth*0.5+ servoHeight +axeEdgePlus+ServoBoxThick+1 ,-BaseLength*0.5+axeEdgePlus+axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([-90,0,90])
+    servoBoxTige();
+    
+    translate([-BaseWidth*0.5- servoHeight -axeEdgePlus-ServoBoxThick-1 ,-BaseLength*0.5+axeEdgePlus+axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([90,0,90])
+    servoBoxTige();
+    
+    translate([-BaseWidth*0.5- servoHeight -axeEdgePlus-ServoBoxThick-1 ,BaseLength*0.5-axeEdgePlus-axeDiam,axeDiam+BaseThick*0.5]) 
+    rotate([90,0,90])
+    servoBoxTige();
+
+    translate([0,-90,48]) rotate([0,0,90]) infraredLineFollower();
+    color("#9809") translate([32.5,-96,44]) rotate([0,0,90]) cube([12,65,5]);
+    
+}    
+
+//chassisWithServoSupport();
+
+
+wheelDiam = 69;
+wheelLarge = 27;
+tyreTick = 4;
+
+module wheelMotor() {
+    module wheel() {
+      rotate([0,90,0]) cylinder(27,wheelDiam*0.5,wheelDiam*0.5,$fn=150,center=true);
+    }
+
+   module tyre() {
+        rotate([-90,0,90])
+        color("#aaaaaa")
+        rotate_extrude(angle = 360,convexity = 20,$fn=300)
+        translate([wheelDiam*0.5+1.5,0,0])
+        rotate([180,0,90]) 
+        difference() {
+            square([wheelLarge,tyreTick],center=true);
+            translate([0,2.5,0]) square([1,2],center=true);
+             translate([-3,2,0]) square([2,2],center=true);
+             translate([-6,2,0]) square([1,2],center=true);
+             translate([-9,2,0]) square([2,2],center=true);
+             translate([-12,2,0]) square([1,2],center=true);
+             translate([3,2,0]) square([2,2],center=true);
+             translate([6,2,0]) square([1,2],center=true);
+             translate([9,2,0]) square([2,2],center=true);
+             translate([12,2.5,0]) square([1,2],center=true);
+         }  
+       }
+       
+    module axe() {
+       #color("#acb121") translate([5,0,0]) rotate([0,90,0]) cylinder( 40, 2,2,$fn=150,center=true);
+        }
+    module motor() {
+          
+        
+        
+        }
+        
+  module motorCage() {
+       color("#faf999") union() {
+         translate([58,0,6]) cube([80,80,40],center = true);
+   
+            translate([58,-59,6]) rotate([90,0,0]) 
+                 difference() {
+             cylinder(40,25,25,$fn=150,center=true);
+             translate([-25,0,0])  rotate([0,-0,90]) cube([45,10,45],center=true); 
+             translate([25,0,0])  rotate([0,-0,90]) cube([45,10,45],center=true); 
+            }
+
+         
+        }
+      }
+      
+      
+  module support() {
+      translate([18.5,-75,12]) 
+      rotate([0,-90,-90])
+      union() {
+      linear_extrude(30)
+      difference() {
+        square([50,40],center= true);
+        translate([-5,-5,0]) square([50,40],center= true);          
+          };
+
+
+          translate([50+25,0,15]) rotate([90,0,90]) 
+          difference() {
+                   cylinder(100,14,14,center=true, $fn=150);   
+                   cylinder(104,11,11,center=true, $fn=150); 
+              }  
+       
+          
+          
+          }
+
+
+      
+      }  
+       
+      wheel();
+     tyre();
+      axe();
+     motorCage();
+      support();
+     // motor();
+      
+
+ }
+
+
+    
+//translate([-150,0,-150]) wheelMotor();
+
+    
+
+ 
+ 

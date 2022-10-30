@@ -138,4 +138,16 @@ module robotAvecRenforcement() {
         translate([0.5*triangleLength-2,0,-2]) rotate([0,180,0])
         renforcement();
 }
-robotAvecRenforcement();
+//robotAvecRenforcement();
+
+
+rotate_extrude(angle = 360,convexity = 20,$fn=300)
+   translate([(roueDiameter/4)+ roueDiamTroue *0.5+roueDiamTroue-0.55 ,0,0])    
+       rotate([0,0,-90])
+            difference(){
+            square([roueWidth,roueDiameter*0.5],center = true);
+            translate([0,roueDiameter*0.5 - roueProfondeurL ,0]) 
+                square([roueWidth-roueLateralThick,roueDiameter*0.5],center = true);
+           }
+                
+                
