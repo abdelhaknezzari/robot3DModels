@@ -10,6 +10,8 @@ jointHoleEdge=4;
 
 chassisThick = 3;
 
+
+
 module  joint()
 {
     color("#065535")
@@ -32,7 +34,7 @@ module joints()
 }
 
 
- //joint();
+// joint();
 
 //joints();
 
@@ -70,8 +72,8 @@ module roue()
     }
 }
 
-
 //roue();
+
 
 module renforcement1() {
         #translate([-0,-triangleLength,-chassisThick]) rotate([-90,0,0]) linear_extrude(2*triangleLength)
@@ -83,6 +85,9 @@ module renforcement1() {
     }
 }
 
+
+//renforcement1();
+
     
 module chassis()
 {   
@@ -92,7 +97,7 @@ module chassis()
         
 }
 
-
+//chassis();
 
 
 module assembledRobot() {
@@ -114,11 +119,10 @@ module assembledRobot() {
  }
 
 
-//triangle();
-
-
-// assembledRobot();
+//assembledRobot();
  
+ 
+  
 module renforcement()
 {    difference(){
         rotate([90,0,0]) translate([0,0,-triangleLength])  linear_extrude(triangleLength*2)
@@ -126,16 +130,7 @@ module renforcement()
           translate([3,-triangleLength+2,0]) rotate([-45,0,45]) cube([10,5,20],center = true);
           translate([3,triangleLength-2,0]) rotate([45,0,-45]) cube([21,5,22],center = true);      
     }
+
 }
 
-//renforcement();
-
-module robotAvecRenforcement() {
-        color("#236dc9")
-        chassis();
-        translate([-0.5*triangleLength+2,0,-1]) rotate([0,90,0])
-        renforcement();
-        translate([0.5*triangleLength-2,0,-2]) rotate([0,180,0])
-        renforcement();
-}
-robotAvecRenforcement();
+renforcement();

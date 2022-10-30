@@ -261,4 +261,4 @@ module infraredLineFollower() {
       color("#ac28f6") bridge(); 
  }
     
-translate([0,-90,50]) rotate([0,0,90]) infraredLineFollower();
+translate([0,-90,48]) rotate([0,0,90]) infraredLineFollower();
