@@ -210,7 +210,11 @@ module infraredLineFollower() {
  }
 
 
-translate([0,-90,48]) rotate([0,0,90]) infraredLineFollower();
+//rotate([0,0,90]) 
+//   union() 
+//    { infraredLineFollower();
+//       color("#9809") translate([-6.5,-32.5,0])  cube([12,65,5]);}
+         
 
 BaseLength = 200;
 BaseWidth  = 150;
@@ -273,6 +277,8 @@ module chassisWithServoSupport() {
 wheelDiam = 69;
 wheelLarge = 27;
 tyreTick = 4;
+wheelTigeLength=100;
+wheelTigeDiam = 14;
 
 module wheelMotor() {
     module wheel() {
@@ -330,15 +336,15 @@ module wheelMotor() {
       union() {
       linear_extrude(30)
       difference() {
-        square([50,40],center= true);
-        translate([-5,-5,0]) square([50,40],center= true);          
+        square([40,40],center= true);
+        translate([-ServoBoxThick,-ServoBoxThick,0]) square([40,40],center= true);          
           };
 
 
-          translate([50+25,0,15]) rotate([90,0,90]) 
+          translate([40+25,0,15]) rotate([90,0,90]) 
           difference() {
-                   cylinder(100,14,14,center=true, $fn=150);   
-                   cylinder(104,11,11,center=true, $fn=150); 
+                   cylinder(wheelTigeLength,wheelTigeDiam,wheelTigeDiam,center=true, $fn=150);   
+                   cylinder(wheelTigeLength+1,wheelTigeDiam-ServoBoxThick,wheelTigeDiam-ServoBoxThick,center=true, $fn=150); 
               }  
        
           
@@ -361,7 +367,7 @@ module wheelMotor() {
 
 
     
-//translate([-150,0,-150]) wheelMotor();
+translate([-150,0,-150]) wheelMotor();
 
     
 
