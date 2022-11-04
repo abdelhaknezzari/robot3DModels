@@ -271,18 +271,19 @@ module chassisWithServoSupport() {
     
 }    
 
-//chassisWithServoSupport();
+chassisWithServoSupport();
 
 
 wheelDiam = 69;
 wheelLarge = 27;
 tyreTick = 4;
 wheelTigeLength=100;
-wheelTigeDiam = 14;
+wheelTigeDiam = 12;
+motorBoxLength=wheelDiam/1.68;
 
 module wheelMotor() {
     module wheel() {
-      rotate([0,90,0]) cylinder(27,wheelDiam*0.5,wheelDiam*0.5,$fn=150,center=true);
+      rotate([0,90,0]) cylinder(wheelLarge,wheelDiam*0.5,wheelDiam*0.5,$fn=150,center=true);
     }
 
    module tyre() {
@@ -306,7 +307,9 @@ module wheelMotor() {
        }
        
     module axe() {
-       #color("#acb121") translate([5,0,0]) rotate([0,90,0]) cylinder( 40, 2,2,$fn=150,center=true);
+       color("#acb121") translate([(motorBoxLength*2+ServoBoxThick-1)*0.5,0,0]) 
+        rotate([0,90,0]) 
+        cylinder( motorBoxLength*2+wheelLarge+ServoBoxThick+1, 2,2,$fn=150,center=true);
         }
     module motor() {
           
@@ -316,13 +319,18 @@ module wheelMotor() {
         
   module motorCage() {
        color("#faf999") union() {
-         translate([58,0,6]) cube([80,80,40],center = true);
-   
-            translate([58,-59,6]) rotate([90,0,0]) 
-                 difference() {
-             cylinder(40,25,25,$fn=150,center=true);
-             translate([-25,0,0])  rotate([0,-0,90]) cube([45,10,45],center=true); 
-             translate([25,0,0])  rotate([0,-0,90]) cube([45,10,45],center=true); 
+         translate([motorBoxLength+wheelLarge*0.5+ServoBoxThick,0,ServoBoxThick]) 
+           cube([motorBoxLength*2,motorBoxLength*2,motorBoxLength],center = true);
+         translate([motorBoxLength+wheelLarge*0.5+ServoBoxThick,-motorBoxLength-20,ServoBoxThick]) 
+           rotate([90,0,0]) 
+             difference() {
+             cylinder(motorBoxLength,motorBoxLength*0.5+ServoBoxThick,motorBoxLength*0.5+ServoBoxThick,$fn=150,center=true);
+             translate([-motorBoxLength*0.5-ServoBoxThick-1,0,0]) 
+                     rotate([0,-0,90]) 
+                     cube([motorBoxLength+5,10,motorBoxLength+ServoBoxThick],center=true); 
+             translate([motorBoxLength*0.5+ServoBoxThick,0,0])  
+                     rotate([0,-0,90]) 
+                     cube([motorBoxLength+ServoBoxThick,10,motorBoxLength+ServoBoxThick],center=true); 
             }
 
          
@@ -331,34 +339,30 @@ module wheelMotor() {
       
       
   module support() {
-      translate([18.5,-75,12]) 
+      translate([motorBoxLength*0.5-1,-motorBoxLength-wheelTigeDiam*2-ServoBoxThick,motorBoxLength*0.5*0.5]) 
       rotate([0,-90,-90])
       union() {
-      linear_extrude(30)
+      linear_extrude(wheelTigeDiam*2+ServoBoxThick*0.5)
       difference() {
-        square([40,40],center= true);
-        translate([-ServoBoxThick,-ServoBoxThick,0]) square([40,40],center= true);          
+        square([motorBoxLength,motorBoxLength],center= true);
+        translate([-ServoBoxThick,-ServoBoxThick,0]) 
+          square([motorBoxLength,motorBoxLength],center= true);          
           };
 
 
-          translate([40+25,0,15]) rotate([90,0,90]) 
+          translate([motorBoxLength+motorBoxLength*0.5+ServoBoxThick*2+1,0,wheelTigeDiam+1]) 
+          rotate([90,0,90]) 
           difference() {
-                   cylinder(wheelTigeLength,wheelTigeDiam,wheelTigeDiam,center=true, $fn=150);   
-                   cylinder(wheelTigeLength+1,wheelTigeDiam-ServoBoxThick,wheelTigeDiam-ServoBoxThick,center=true, $fn=150); 
+                cylinder(wheelTigeLength,wheelTigeDiam,wheelTigeDiam,center=true, $fn=150);   
+                cylinder(wheelTigeLength+1,wheelTigeDiam-ServoBoxThick,wheelTigeDiam-ServoBoxThick,center=true, $fn=150); 
               }  
-       
-          
-          
-          }
-
-
-      
+          }      
       }  
        
       wheel();
      tyre();
       axe();
-     motorCage();
+    # motorCage();
       support();
      // motor();
       
@@ -367,7 +371,8 @@ module wheelMotor() {
 
 
     
-translate([-150,0,-150]) wheelMotor();
+translate([-150,0,-150])
+ wheelMotor();
 
     
 
