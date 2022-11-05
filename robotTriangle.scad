@@ -35,7 +35,7 @@ module joints()
 }
 
 
- //joint();
+// joint();
 
 //joints();
 
@@ -46,18 +46,10 @@ translate([triangleLength*0.5-0.5,triangleLength,-2])
     difference(){
          rotate([90,0,0]) linear_extrude(triangleLength*2)
            polygon([[0,0],[0,chassisThick+1],[chassisThick+1,0]]);
-        # translate([0,-2*triangleLength-4.25,0]) rotate([-45,0,0]) cube([10,6,35],center = true);
-        #translate([0,+4.25,0]) rotate([45,0,0]) cube([10,6,35],center = true);      
+         translate([0,-2*triangleLength-4.25,0]) rotate([-45,0,0]) cube([10,6,35],center = true);
+        translate([0,+4.25,0]) rotate([45,0,0]) cube([10,6,35],center = true);      
     }
 }
-
-//renforcement();
-
-
-//        translate([0.5*triangleLength-2,0,-2]) rotate([0,180,0])
-//        renforcement();
-
-
 
 
 module triangle()
@@ -78,12 +70,31 @@ module triangle()
                  
          
          }   
+}
 
-    
+
+module triangleNoRenf()
+    {
+     union() {
+          translate([-chassisThick*0.5,0,0])
+          rotate([0,90,0])
+          linear_extrude(chassisThick)
+          difference()
+            {       
+             polygon([[0,triangleLength],[0,-triangleLength],[triangleLength,0]]);
+             translate([triangleLength*0.5+trinagleHoleEdgeL*2,0,0]) circle(roueDiamTroue, $fn=150);
+             translate([trinagleHoleEdgeL,triangleLength*0.5+trinagleHoleEdgeL,0]) circle(roueDiamTroue, $fn=150);  
+             translate([trinagleHoleEdgeL,-triangleLength*0.5-trinagleHoleEdgeL,0]) circle(roueDiamTroue, $fn=150);     
+            };
+                
+         
+         }   
 }
     
 
 //triangle();  
+
+//triangleNoRenf();
 
 module roue()
 {
@@ -98,7 +109,7 @@ module roue()
 }
 
 
-//roue();
+roue();
 
 module renforcement1() {
         #translate([-0,-triangleLength,-chassisThick]) rotate([-90,0,0]) linear_extrude(2*triangleLength)
@@ -122,7 +133,7 @@ module chassis()
 }
 
 
-chassis();
+//chassis();
 
 
 module assembledRobot() {
