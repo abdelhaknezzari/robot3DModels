@@ -10,6 +10,9 @@ jointHoleEdge=4;
 
 chassisThick = 3;
 
+triangleLength = 60;
+trinagleHoleEdgeL = triangleLength/8;
+
 module  joint()
 {
     color("#065535")
@@ -36,22 +39,46 @@ module joints()
 
 //joints();
 
+module renforcement()
+translate([triangleLength*0.5-0.5,triangleLength,-2])
+{  
+     color("#1009d0")
+    difference(){
+         rotate([90,0,0]) linear_extrude(triangleLength*2)
+           polygon([[0,0],[0,chassisThick+1],[chassisThick+1,0]]);
+        # translate([0,-2*triangleLength-4.25,0]) rotate([-45,0,0]) cube([10,6,35],center = true);
+        #translate([0,+4.25,0]) rotate([45,0,0]) cube([10,6,35],center = true);      
+    }
+}
 
-triangleLength = 60;
-trinagleHoleEdgeL = triangleLength/8;
+//renforcement();
+
+
+//        translate([0.5*triangleLength-2,0,-2]) rotate([0,180,0])
+//        renforcement();
+
+
+
 
 module triangle()
     {
-      translate([-chassisThick*0.5,0,0])
-      rotate([0,90,0])
-      linear_extrude(chassisThick)
-      difference()
-        {       
-         polygon([[0,triangleLength],[0,-triangleLength],[triangleLength,0]]);
-         translate([triangleLength*0.5+trinagleHoleEdgeL*2,0,0]) circle(roueDiamTroue, $fn=150);
-         translate([trinagleHoleEdgeL,triangleLength*0.5+trinagleHoleEdgeL,0]) circle(roueDiamTroue, $fn=150);  
-         translate([trinagleHoleEdgeL,-triangleLength*0.5-trinagleHoleEdgeL,0]) circle(roueDiamTroue, $fn=150);     
-        }
+     union() {
+          translate([-chassisThick*0.5,0,0])
+          rotate([0,90,0])
+          linear_extrude(chassisThick)
+          difference()
+            {       
+             polygon([[0,triangleLength],[0,-triangleLength],[triangleLength,0]]);
+             translate([triangleLength*0.5+trinagleHoleEdgeL*2,0,0]) circle(roueDiamTroue, $fn=150);
+             translate([trinagleHoleEdgeL,triangleLength*0.5+trinagleHoleEdgeL,0]) circle(roueDiamTroue, $fn=150);  
+             translate([trinagleHoleEdgeL,-triangleLength*0.5-trinagleHoleEdgeL,0]) circle(roueDiamTroue, $fn=150);     
+            };
+        translate([0.5*triangleLength-2,0,-2]) rotate([0,180,0])
+        renforcement();
+                 
+         
+         }   
+
     
 }
     
@@ -86,13 +113,16 @@ module renforcement1() {
     
 module chassis()
 {   
-  translate([-triangleLength*0.5+chassisThick*0.5,0,-chassisThick*0.5]) triangle();
-  translate([triangleLength*0.5 - chassisThick*0.5 ,0,-chassisThick*0.5]) triangle();
-  cube([triangleLength,triangleLength*2,chassisThick], center =true);
-        
+
+    union() {    
+          translate([-triangleLength*0.5+chassisThick*0.5,0,-chassisThick*0.5]) rotate([0,0,180])  triangle();
+          translate([triangleLength*0.5 - chassisThick*0.5 ,0,-chassisThick*0.5]) triangle();
+          cube([triangleLength,triangleLength*2,chassisThick], center =true);  
+    }       
 }
 
 
+chassis();
 
 
 module assembledRobot() {
@@ -119,21 +149,12 @@ module assembledRobot() {
 
 // assembledRobot();
  
-module renforcement()
-{    difference(){
-        rotate([90,0,0]) translate([0,0,-triangleLength])  linear_extrude(triangleLength*2)
-           polygon([[0,0],[0,chassisThick+1],[chassisThick+1,0]]);
-          translate([3,-triangleLength+2,0]) rotate([-45,0,45]) cube([10,5,20],center = true);
-          translate([3,triangleLength-2,0]) rotate([45,0,-45]) cube([21,5,22],center = true);      
-    }
-}
 
-//renforcement();
 
 module robotAvecRenforcement() {
         color("#236dc9")
         chassis();
-        translate([-0.5*triangleLength+2,0,-1]) rotate([0,90,0])
+        translate([-0.5*triangleLength+2,0,-2]) rotate([0,+180-90,0])
         renforcement();
         translate([0.5*triangleLength-2,0,-2]) rotate([0,180,0])
         renforcement();
@@ -141,13 +162,13 @@ module robotAvecRenforcement() {
 //robotAvecRenforcement();
 
 
-rotate_extrude(angle = 360,convexity = 20,$fn=300)
-   translate([(roueDiameter/4)+ roueDiamTroue *0.5+roueDiamTroue-0.55 ,0,0])    
-       rotate([0,0,-90])
-            difference(){
-            square([roueWidth,roueDiameter*0.5],center = true);
-            translate([0,roueDiameter*0.5 - roueProfondeurL ,0]) 
-                square([roueWidth-roueLateralThick,roueDiameter*0.5],center = true);
-           }
+//rotate_extrude(angle = 360,convexity = 20,$fn=300)
+//   translate([(roueDiameter/4)+ roueDiamTroue *0.5+roueDiamTroue-0.55 ,0,0])    
+//       rotate([0,0,-90])
+//            difference(){
+//            square([roueWidth,roueDiameter*0.5],center = true);
+//            translate([0,roueDiameter*0.5 - roueProfondeurL ,0]) 
+//                square([roueWidth-roueLateralThick,roueDiameter*0.5],center = true);
+//           }
                 
                 
