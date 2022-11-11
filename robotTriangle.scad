@@ -39,6 +39,21 @@ module joints()
 
 //joints();
 
+
+
+module  joint2()
+{
+    color("#065535")
+    linear_extrude(chassisThick)
+    difference() {
+        square([jointLargeur,jointLargeur],center=true);
+        circle(roueDiamTroue,$fn=150);   
+  
+     }
+}
+
+//joint2();
+
 module renforcement()
 translate([triangleLength*0.5-0.5,triangleLength,-2])
 {  
@@ -109,7 +124,48 @@ module roue()
 }
 
 
-roue();
+//roue();
+
+
+module roue2()
+{
+ rotate_extrude(angle = 360,convexity = 20,$fn=300)
+   translate([1.958,0,0])
+   rotate([0,0,-90])
+    minkowski($fn=150) {
+           difference() {
+               polygon([[20,0],[-20,0],[0,3]]);
+               #translate([19.5,0,0]) square([10,3],center=true);
+               #translate([-19.5,0,0]) square([10,3],center=true);       
+               };
+       circle(0.4,$fn=150);             
+  }
+
+}
+//roue2();
+
+
+module roueMotor()
+{   
+  rotate_extrude(angle = 360,convexity = 20,$fn=300)
+
+    difference() {
+
+
+    minkowski() {
+      square([11,11], center=true);
+      circle(0.7,$fn=150);      
+   };
+    translate([-8*0.5+1,0,0]) square([8,13],center=true);
+   
+        }
+
+
+
+}
+
+roueMotor();
+
 
 module renforcement1() {
         #translate([-0,-triangleLength,-chassisThick]) rotate([-90,0,0]) linear_extrude(2*triangleLength)
@@ -124,7 +180,6 @@ module renforcement1() {
     
 module chassis()
 {   
-
     union() {    
           translate([-triangleLength*0.5+chassisThick*0.5,0,-chassisThick*0.5]) rotate([0,0,180])  triangle();
           translate([triangleLength*0.5 - chassisThick*0.5 ,0,-chassisThick*0.5]) triangle();

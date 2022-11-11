@@ -24,6 +24,18 @@
             "roueProfondeurL": "4",
             "roueWidth": "5",
             "triangleLength": "60"
+        },
+        "New set 3": {
+            "chassisThick": "3",
+            "jointHoleEdge": "4",
+            "jointLargeur": "7",
+            "jointLongeur": "17",
+            "roueDiamTroue": "1.55",
+            "roueDiameter": "40",
+            "roueLateralThick": "5",
+            "roueProfondeurL": "4",
+            "roueWidth": "18",
+            "triangleLength": "60"
         }
     }
 }
