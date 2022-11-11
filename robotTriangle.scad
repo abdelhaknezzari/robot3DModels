@@ -147,17 +147,22 @@ module roue2()
 
 module roueMotor()
 {   
-  rotate_extrude(angle = 360,convexity = 20,$fn=300)
+ rotate_extrude(angle = 360,convexity = 20,$fn=300)
 
+translate([1,0,0]) 
+           rotate([0,0,-90])
+    
     difference() {
 
 
-    minkowski() {
-      square([11,11], center=true);
-      circle(0.7,$fn=150);      
+  minkowski() {
+      difference() {
+         polygon([[15,0],[-15,0],[0,7]]);
+         translate([0,6.5,0]) square([5,2],center=true);
+      }
+      circle(0.5,$fn=150);      
    };
-    translate([-8*0.5+1,0,0]) square([8,13],center=true);
-   
+  
         }
 
 
