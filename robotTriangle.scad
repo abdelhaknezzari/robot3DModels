@@ -144,29 +144,23 @@ module roue2()
 }
 //roue2();
 
-
+motorWheelDiam = 2.1;
+motorWheelLen = 20; //20
 module roueMotor()
 {   
  rotate_extrude(angle = 360,convexity = 20,$fn=300)
-
-translate([1,0,0]) 
-           rotate([0,0,-90])
-    
-    difference() {
-
-
-  minkowski() {
-      difference() {
-         polygon([[15,0],[-15,0],[0,7]]);
-         translate([0,6.5,0]) square([5,2],center=true);
-      }
-      circle(0.5,$fn=150);      
-   };
-  
-        }
-
-
-
+    translate([motorWheelDiam*0.5,0,0]) 
+      rotate([0,0,-90]) 
+        difference() {
+              minkowski() {
+                  difference() {
+                     polygon([[motorWheelLen*0.5,0],[-motorWheelLen*0.5,0],[0,motorWheelLen*0.3]]);
+                     translate([0,motorWheelLen*0.25,0]) square([motorWheelLen*0.3,3],center=true);
+                  }
+                  circle(0.5,$fn=150);      
+               };
+      
+            }
 }
 
 roueMotor();
