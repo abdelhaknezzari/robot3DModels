@@ -24,11 +24,11 @@ j=[-3.5+curvature/factor,0];
 co=[(a[0]+b[0])*0.5,(a[1]+b[1])*0.5 ];
 
 d2 = [a[0] - diam *0.25* cos(ang),a[1]-diam *0.25* sin(ang)  ];
-d3 = [b[0] - diam *0.25* cos(ang),b[1]-diam *0.25* sin(ang)  ];
+d3 = [b[0] + diam *0.25* cos(ang),b[1] + diam *0.25* sin(ang)  ];
 d2d3 = sqrt( (d2[0]-d3[0] )^2  + (d2[1]-d3[1] )^2  );
 d1= [d2[0]-d2d3,d2[1]];
-#polygon( factor*[d2,d3,d1]);
 
+difference() {
 offset(r = curvature,chamfer= true,$fn=150) 
   union() {
      polygon( factor*[a,b,c,e,f,g,h,i,i1,j1,j]);
@@ -39,3 +39,7 @@ offset(r = curvature,chamfer= true,$fn=150)
          square(factor*diam*[1,1/2],center=true); }
      
     }
+ 
+ offset(r = curvature,chamfer= true,$fn=150) polygon( factor*[d2,d3,d1]);
+    
+}
