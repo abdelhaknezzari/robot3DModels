@@ -28,6 +28,12 @@ d3 = [b[0] + diam *0.25* cos(ang),b[1] + diam *0.25* sin(ang)  ];
 d2d3 = sqrt( (d2[0]-d3[0] )^2  + (d2[1]-d3[1] )^2  );
 d1= [d2[0]-d2d3,d2[1]];
 
+c1 = [factor*j[0]+3,factor*j[1]-3];
+c2 = [factor*j1[0]+3,factor*j1[1]+3];
+c3 = [factor*i1[0]-3,factor*i1[1]+3];
+c4 = [factor*i[0]-3,factor*i[1]-3];
+c5 =factor*( a+ b )/2;
+
 difference() {
 offset(r = curvature,chamfer= true,$fn=150) 
   union() {
@@ -40,6 +46,10 @@ offset(r = curvature,chamfer= true,$fn=150)
      
     }
  
- offset(r = curvature,chamfer= true,$fn=150) polygon( factor*[d2,d3,d1]);
-    
+  offset(r = curvature,chamfer= true,$fn=150) polygon( factor*[d2,d3,d1]);
+  #translate(c1) circle(2,$fn=150);
+  #translate(c2) circle(2,$fn=150);
+  #translate(c3) circle(2,$fn=150);
+  #translate(c4) circle(2,$fn=150);
+  #translate(c5) circle(2,$fn=150);    
 }
