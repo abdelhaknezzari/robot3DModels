@@ -1,10 +1,9 @@
 
-
 factor=10;
 ang=60;
 curvature = 1;
 
-servoLength=4.1; 
+servoLength=4.2; 
 servoWidth=2; 
 diam=2.74591;
 
@@ -28,28 +27,87 @@ d3 = [b[0] + diam *0.25* cos(ang),b[1] + diam *0.25* sin(ang)  ];
 d2d3 = sqrt( (d2[0]-d3[0] )^2  + (d2[1]-d3[1] )^2  );
 d1= [d2[0]-d2d3,d2[1]];
 
-c1 = [factor*j[0]+3,factor*j[1]-3];
-c2 = [factor*j1[0]+3,factor*j1[1]+3];
-c3 = [factor*i1[0]-3,factor*i1[1]+3];
-c4 = [factor*i[0]-3,factor*i[1]-3];
-c5 =factor*( a+ b )/2;
+e1=3;
+c1 = [factor*j[0]+e1,factor*j[1]-e1];
+c2 = [factor*j1[0]+e1,factor*j1[1]+e1+3.5];
+c3 = [factor*i1[0]-e1,factor*i1[1]+e1+3.5];
+c4 = [factor*i[0]-e1,factor*i[1]-e1];
 
+l = 1.3*sqrt( ((a+b)[0])^2+((a+b)[1])^2 ) / 2 ;
+echo(l);
+
+theta= atan(2*l/sqrt( ((a+b)[0])^2+((a+b)[1])^2 ));
+c5 =factor*( a  + b ) / 2+ l * [1,-sin(theta)];
+
+
+function legEdges(p=3) =[
+factor*g - p *[1,1], 
+factor*h - p *[1,-1],
+factor*i - p *[-1,-1], 
+factor*i1 - p *[-1,-1],
+factor*j1 - p *[1,-1],
+factor*j - p *[1,-1],
+factor*a - p *[-1,-1],
+factor*b - p *[1,1],
+factor*c - p *[1,1],
+factor*e - p *[-1,1],
+factor*f - p *[-1,1]
+];
+
+
+echo(concat(legEdges(3),legEdges(4)));
+
+union() {
+    difference() {
+        offset(r = curvature,chamfer= true,$fn=150) 
+          union() {
+             polygon( factor*[a,b,c,e,f,g,h,i,i1,j1,j]);
+             translate(factor*co) 
+             difference() {circle(d=diam*factor,$fn=100); 
+                 rotate([0,0,ang]) 
+                translate([0,factor*diam*0.25,0]) 
+                 square(factor*diam*[1,1/2],center=true); }
+             
+            }
+         
+         # offset(r = curvature,chamfer= true,$fn=150) polygon( factor*[d2,d3,d1]);
+          translate(c1) circle(2,$fn=150);
+         # translate(c2) circle(2,$fn=150);
+         # translate(c3) circle(2,$fn=150);
+          translate(c4) circle(2,$fn=150);
+          translate(c5) circle(2,$fn=150);  
+          
+
+      
+        
+    } ;
+    
+ lolo = legEdges(0.7);
+    
+# translate(lolo[6]) circle(1,$fn=150);  
+    
 difference() {
-offset(r = curvature,chamfer= true,$fn=150) 
-  union() {
-     polygon( factor*[a,b,c,e,f,g,h,i,i1,j1,j]);
-     translate(factor*co) 
-     difference() {circle(d=diam*factor,$fn=100); 
-         rotate([0,0,ang]) 
-        translate([0,factor*diam*0.25,0]) 
-         square(factor*diam*[1,1/2],center=true); }
-     
+   polygon(legEdges(4));
+    polygon(legEdges(1.7));
+    
+    }    
+
+    
+//  # polygon( factor* [b,b-[0,0.3],c-[0,0.3],c]);
+//  # polygon( factor* [c,c-[0,0.3],e-[0,0.3],e]);
+// # polygon( factor* [e,e-[0,0.3],f-[0,0.3],f]);
+//  # polygon( factor* [f,f-[0,0.3],g-[0,0.3],g]);
+//  # polygon( factor* [j,j+[0,0.3],a+[0,0.3],a]);
+//  # polygon( factor* [i1,i1+[0,0.3],j1+[0,0.3],j1]);
+//   # polygon( factor* [j1,j1-[0.3,0],j-[0.3,0],j]);
+//   # polygon( factor* [i1,i1+[0.3,0],i+[0.3,0],i]);  
+//     # polygon( factor* [g,g-[0.3,0],h-[0.3,0],h]);    
+//      # polygon( factor* [h,h+[0,0.3],i+[0,0.3],i]);
+    
     }
- 
-  offset(r = curvature,chamfer= true,$fn=150) polygon( factor*[d2,d3,d1]);
-  #translate(c1) circle(2,$fn=150);
-  #translate(c2) circle(2,$fn=150);
-  #translate(c3) circle(2,$fn=150);
-  #translate(c4) circle(2,$fn=150);
-  #translate(c5) circle(2,$fn=150);    
-}
+
+
+
+
+
+
