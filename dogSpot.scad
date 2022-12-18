@@ -14,7 +14,6 @@ e=[-2,-1.1];
 f = [-3,-2.8];
 g=[-8.7,-2.8];
 h=[-8.7,0];
-
 i=[-3.5-servoLength-curvature/factor,0];
 i1=[-3.5-servoLength-curvature/factor,-servoWidth];
 j1=[-3.5+curvature/factor,-servoWidth];
@@ -40,28 +39,75 @@ theta= atan(2*l/sqrt( ((a+b)[0])^2+((a+b)[1])^2 ));
 c5 =factor*( a  + b ) / 2+ l * [1,-sin(theta)];
 
 
-function legEdges(p=3) =[
-factor*g - p *[1,1], 
-factor*h - p *[1,-1],
-factor*i - p *[-1,-1], 
-factor*i1 - p *[-1,-1],
-factor*j1 - p *[1,-1],
-factor*j - p *[1,-1],
-factor*a - p *[-1,-1],
-factor*b - p *[1,1],
-factor*c - p *[1,1],
-factor*e - p *[-1,1],
-factor*f - p *[-1,1]
+function extOffset(p=3) = p* [
+ [-0.5,-1.],
+ [1,1],
+ [1,1],
+ [-1,1],
+ [-1,1],
+ [1,1], 
+ [1,-1],
+ [-1,-1], 
+ [-1,-1],
+ [1,-1],
+ [1,-1],
 ];
 
+function legPolygon() = 
+factor *[
+a,
+b,
+c,
+e,
+f,
+g, 
+h,
+i, 
+i1,
+j1,
+j
+];
 
-echo(concat(legEdges(3),legEdges(4)));
+function legEdges(p=3)= legPolygon() - extOffset(p);
+
+
+radius = 15.5;
+angles = [55-180, 60];
+width = 3;
+fn = 124;
+
+module sector(radius, angles, fn = 24) {
+    r = radius / cos(180 / fn);
+    step = -360 / fn;
+
+    points = r* concat([[0, 0]],
+        [for(a = [angles[0] : step : angles[1] - 360]) 
+            [cos(a), sin(a)]
+        ],
+        r*[[ cos(angles[1]), sin(angles[1])]]
+    );
+
+    difference() {
+        circle(radius, $fn = fn);
+        polygon(points);
+    }
+}
+
+module arc(radius, angles, width = 1, fn = 24) {
+    difference() {
+        sector(radius + width, angles, fn);
+        sector(radius, angles, fn);
+    }
+} 
+
+
+
 
 union() {
     difference() {
         offset(r = curvature,chamfer= true,$fn=150) 
           union() {
-             polygon( factor*[a,b,c,e,f,g,h,i,i1,j1,j]);
+             polygon( legPolygon());
              translate(factor*co) 
              difference() {circle(d=diam*factor,$fn=100); 
                  rotate([0,0,ang]) 
@@ -82,12 +128,17 @@ union() {
         
     } ;
     
- lolo = legEdges(0.7);
+ lolo = legEdges(4);
+ lolo2 = legEdges(1.7);
     
-# translate(lolo[6]) circle(1,$fn=150);  
+# translate(lolo2[0]) circle(0.2,$fn=150); 
+   
+#  translate(factor*co) linear_extrude(1) arc(radius, angles, width);
     
 difference() {
-   polygon(legEdges(4));
+  # offset(r = 0.3,chamfer= true,$fn=150) 
+    polygon(legEdges(4));
+    offset(r = 0.3,chamfer= true,$fn=150)
     polygon(legEdges(1.7));
     
     }    
